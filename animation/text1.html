@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Modular Text Animations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .text {
+            font-size: 24px;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .wave span,
+        .split span {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="fade-in" class="text"></div>
+        <div id="slide-left" class="text"></div>
+        <div id="slide-right" class="text"></div>
+        <div id="slide-up" class="text"></div>
+        <div id="slide-down" class="text"></div>
+        <div id="zoom-in" class="text"></div>
+        <div id="wave-effect" class="text"></div>
+        <div id="typing" class="text"></div>
+        <div id="scale-in" class="text"></div>
+        <div id="bounce" class="text"></div>
+        <div id="scale-out" class="text"></div>
+        <div id="scale-in-out" class="text"></div>
+    </div>
+
+    <script>
+        function animateText(containerId, text, animation) {
+            const container = document.querySelector(`#${containerId}`);
+            if (!container) return;
+
+            gsap.registerPlugin(TextPlugin);
+
+            // Ganti "\n" dengan <br>
+            text = text.replace(/\n/g, "<br>");
+
+            if (!["typing", "scale-in", "scale-in-out", "bounce"].includes(animation)) {
+                // Pecah kata untuk animasi berbasis children
+                const words = text.split(/(\s+|<br>)/).map(word =>
+                    word === "<br>" ? "<br>" : `<span style="opacity:0; display:inline-block;">${word}</span>`
+                ).join("");
+
+                container.innerHTML = words;
+            } else {
+                container.innerHTML = text;
+            }
+
+            switch (animation) {
+                case "fade-in":
+                    gsap.to(container.children, { opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "slide-left":
+                    gsap.fromTo(container.children, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "slide-right":
+                    gsap.fromTo(container.children, { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "slide-up":
+                    gsap.fromTo(container.children, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "slide-down":
+                    gsap.fromTo(container.children, { y: -50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "zoom-in":
+                    gsap.fromTo(container.children, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.2 });
+                    break;
+                case "wave":
+                    gsap.fromTo(container.children, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "bounce.out" });
+                    break;
+                case "typing":
+                    gsap.to(container, { duration: 2, text: text, ease: "none" });
+                    break;
+                case "scale-in":
+                    gsap.from(container, { scale: 0, opacity: 0, duration: 1.5, ease: "elastic.out(1, 0.5)" });
+                    break;
+                case "scale-out":
+                    gsap.to(container, { scale: 0, opacity: 0, duration: 1.5, ease: "power2.in", delay: 1 });
+                    break;
+                case "scale-in-out":
+                    gsap.fromTo(container, { scale: 0, opacity: 0 }, {
+                        scale: 1, opacity: 1, duration: 1.5, ease: "elastic.out(1, 0.5)",
+                        onComplete: () => {
+                            gsap.to(container, { scale: 0, opacity: 0, duration: 1.5, ease: "power2.in", delay: 1 });
+                        }
+                    });
+                    break;
+                case "bounce":
+                    gsap.to(container, { scale: 1.2, opacity: 1, duration: 0.5, ease: "power1.inOut", repeat: -1, yoyo: true });
+                    break;
+            }
+        }
+        // Panggil animasi tanpa teks di HTML
+        animateText("fade-in", "This is a fade-in animation!", "fade-in");
+        animateText("slide-left", "This text slides in from the left!", "slide-left");
+        animateText("slide-right", "This text slides in from the right!", "slide-right");
+        animateText("slide-up", "This text slides up from below!", "slide-up");
+        animateText("slide-down", "This text slides down from above!", "slide-down");
+        animateText("zoom-in", "This text zooms in!", "zoom-in");
+        animateText("wave-effect", "Wave animation effect!", "wave");
+        animateText("typing", "Hello, this is a typing effect!", "typing");
+        animateText("scale-in", "Scaling In Effect!", "scale-in");
+        animateText("bounce", "bounce effect", "bounce");
+
+        // Scale-Out jalan setelah Scale-In selesai
+        setTimeout(() => animateText("scale-out", "Scaling Out Effect!", "scale-out"), 3000);
+
+        // Scale-In-Out jalan lebih dulu, lalu otomatis scale-out setelahnya
+        setTimeout(() => animateText("scale-in-out", "Scaling In-Out Effect!", "scale-in-out"), 5000);
+    </script>
+</body>
+
+</html>

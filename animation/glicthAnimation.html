@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Glitch Effect</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background-color: black;
+            transition: opacity 0.5s;
+        }
+
+        .glitch {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.5), rgba(0, 255, 0, 0.5), rgba(0, 0, 255, 0.5));
+            mix-blend-mode: screen;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page" id="page1">Halaman 1 - Klik Dimana Saja</div>
+    <div class="page" id="page2" style="display: none;">Halaman 2</div>
+    <div class="glitch"></div>
+
+    <script>
+        document.body.addEventListener("click", () => {
+            let glitch = document.querySelector(".glitch");
+            let page1 = document.getElementById("page1");
+            let page2 = document.getElementById("page2");
+
+            // Efek Glitch
+            gsap.to(glitch, { opacity: 1, duration: 0.1, repeat: 5, yoyo: true, x: "random(-10,10)", y: "random(-10,10)" });
+
+            // Efek Warna Glitch
+            gsap.to(glitch, { duration: 0.2, backgroundPosition: "random(-50px, 50px)", repeat: 5, yoyo: true });
+
+            // Transisi ke Halaman Baru setelah efek glitch selesai
+            setTimeout(() => {
+                gsap.to(page1, {
+                    opacity: 0, duration: 0.3, onComplete: () => {
+                        page1.style.display = "none";
+                        page2.style.display = "flex";
+                        gsap.fromTo(page2, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+                    }
+                });
+            }, 500);
+        });
+    </script>
+
+</body>
+
+</html>

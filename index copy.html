@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Scale & Vertical Slide Transition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+
+    <div class="transition"></div>
+    <!-- Tirai -->
+
+    <div class="page" id="page1"></div>
+    <div class="page" id="page2"></div>
+
+    <div class="page" id="page3"></div>
+
+    <div class="page" id="page4"></div>
+
+    <!-- Slide Horizontal -->
+    <div class="page" id="page5"></div>
+    <div class="page" id="page6"></div>
+    <div class="page" id="page7"></div>
+    <div class="page" id="page8"></div>
+    <div class="page" id="page9"></div>
+
+    <div class="page" id="page10"></div>
+
+    <!-- Tirai -->
+    <div class="curtain left-curtain"></div>
+    <div class="curtain right-curtain"></div>
+
+    <script src="assets/js/animateText.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let currentPage = 0; // Halaman aktif
+            let isAnimating = false;
+
+
+
+            const generatePage1 = (pageId) => {
+                // Buat elemen utama div dengan class "page" dan id "page1"
+                const page = document.getElementById(pageId);
+
+                // Buat div untuk animasi boy
+                const boyAnimate = document.createElement("div");
+                boyAnimate.classList.add("boy-animate");
+
+                // Buat elemen h3 untuk teks animasi
+                const boyAnimateText = document.createElement("h3");
+                boyAnimateText.id = "boy-animate-text";
+                boyAnimateText.textContent = "Halo, ini animasi!"; // Ubah teks sesuai kebutuhan
+
+                // Buat elemen Lottie
+                const lottiePlayer = document.createElement("dotlottie-player");
+                lottiePlayer.setAttribute(
+                    "src",
+                    "https://lottie.host/542b0837-93f8-46e5-ab6a-e8b8f134abad/9U5iN1YSHi.lottie"
+                );
+                lottiePlayer.setAttribute("background", "transparent");
+                lottiePlayer.setAttribute("speed", "1");
+                lottiePlayer.style.width = "400px";
+                lottiePlayer.style.height = "400px";
+                lottiePlayer.setAttribute("loop", "");
+                lottiePlayer.setAttribute("autoplay", "");
+
+                // Susun elemen ke dalam struktur yang benar
+                boyAnimate.appendChild(boyAnimateText);
+                boyAnimate.appendChild(lottiePlayer);
+                page.appendChild(boyAnimate);
+
+                function createScene(pageId) {
+                    const scene = document.createElement('div');
+                    const page = document.getElementById(pageId);
+                    scene.classList.add('scene');
+                    scene.style.position = "absolute";
+                    scene.style.width = "100%";
+                    scene.style.height = "100%";
+                    scene.style.bottom = "0";
+                    scene.style.zIndex = "-1";
+                    page.appendChild(scene);
+
+                    const landscape = document.createElement('div');
+                    landscape.classList.add('landscape');
+                    landscape.style.position = "absolute";
+                    landscape.style.bottom = "0";
+                    landscape.style.width = "100%";
+                    landscape.style.height = "200px";
+                    landscape.style.background = "linear-gradient(to top, #4CAF50, #388E3C)";
+                    scene.appendChild(landscape);
+
+                    for (let i = 0; i < 5; i++) {
+                        createCloud(scene);
+                    }
+                }
+
+                function createCloud(container) {
+                    const cloud = document.createElement('div');
+                    cloud.classList.add('cloud');
+                    cloud.style.position = "absolute";
+                    cloud.style.width = "150px";
+                    cloud.style.height = "60px";
+                    cloud.style.background = "#fff";
+                    cloud.style.borderRadius = "50px";
+                    cloud.style.boxShadow = "10px 10px 20px rgba(0, 0, 0, 0.1)";
+                    container.appendChild(cloud);
+
+                    const before = document.createElement('div');
+                    before.style.content = "''";
+                    before.style.position = "absolute";
+                    before.style.background = "#fff";
+                    before.style.width = "100px";
+                    before.style.height = "80px";
+                    before.style.borderRadius = "50%";
+                    before.style.top = "-40px";
+                    before.style.left = "30px";
+                    cloud.appendChild(before);
+
+                    const after = document.createElement('div');
+                    after.style.content = "''";
+                    after.style.position = "absolute";
+                    after.style.background = "#fff";
+                    after.style.width = "100px";
+                    after.style.height = "80px";
+                    after.style.borderRadius = "50%";
+                    after.style.top = "-20px";
+                    after.style.left = "90px";
+                    cloud.appendChild(after);
+
+                    const startY = Math.random() * window.innerHeight * 0.5;
+                    cloud.style.top = `${startY}px`;
+                    cloud.style.left = `-200px`;
+
+                    gsap.to(cloud, {
+                        x: window.innerWidth + 200,
+                        duration: Math.random() * 5 + 5,
+                        ease: "linear",
+                        repeat: -1,
+                        onRepeat: () => {
+                            cloud.style.top = `${Math.random() * window.innerHeight * 0.5}px`;
+                        }
+                    });
+                }
+
+                createScene(pageId);
+                animateText('boy-animate-text', "yeay ayang aku\nulang taun!!!", 'bounce')
+            }
+
+            const generatePage2 = (pageId) => {
+                const balloonImages = ["balloon_red.png", "balloon_blue.png", "balloon_tosca.png", "balloon_yellow.png"]; // Tambahkan lebih banyak gambar jika diperlukan
+                const decorationImage = "assets/images/decoration.png"; // Gambar dekorasi
+                const textImage = "assets/images/happy_birthday.png";
+                let spawnInterval;
+
+                function createBalloon(pageId) {
+                    for (let i = 0; i < 100; i++) {
+                        const balloon = document.createElement("img");
+                        const page = document.getElementById(pageId);
+                        balloon.src = `assets/images/${balloonImages[Math.floor(Math.random() * balloonImages.length)]}`;
+                        balloon.classList.add("balloon");
+                        page.appendChild(balloon);
+
+                        const startX = Math.random() * window.innerWidth;
+                        const endX = startX + (Math.random() * 100 - 50);
+                        const scale = Math.random() * 0.5 + 0.5;
+                        const duration = Math.random() * 5 + 3;
+
+                        balloon.style.left = `${startX}px`;
+                        balloon.style.transform = `scale(${scale})`;
+
+                        gsap.to(balloon, {
+                            duration: duration,
+                            y: -window.innerHeight - 100,
+                            x: endX,
+                            ease: "power1.inOut",
+                            onComplete: () => balloon.remove()
+                        });
+                    }
+                }
+
+                function createDecoration(pageId) {
+                    const decoration = document.createElement("img");
+                    const page = document.getElementById(pageId);
+                    decoration.src = decorationImage;
+                    decoration.classList.add("decoration");
+                    page.appendChild(decoration);
+
+                    decoration.style.left = "0";
+                    decoration.style.bottom = "-100px";
+
+                    gsap.to(decoration, {
+                        duration: 2,
+                        y: -window.innerHeight + 50,
+                        opacity: 1,
+                        ease: "power1.out",
+                        onComplete: createTextAndCake(pageId)
+                    });
+                }
+
+                function createTextAndCake(pageId) {
+                    const text = document.createElement("img");
+                    const page = document.getElementById(pageId);
+                    text.src = textImage;
+                    text.classList.add("text-img");
+                    page.appendChild(text);
+
+                    const photo = document.createElement("img");
+                    photo.src = "assets/images/nabila/nabila01.jpg";
+                    photo.classList.add("photo-nabila");
+                    page.appendChild(photo);
+
+                    const cake = document.createElement("dotlottie-player");
+                    cake.src = "https://lottie.host/86f7153d-0c5e-44ca-b119-d8c6d8acc111/m6RLKaB4dV.lottie";
+                    cake.setAttribute("background", "transparent");
+                    cake.setAttribute("speed", "1");
+                    cake.setAttribute("loop", "");
+                    cake.setAttribute("autoplay", "");
+                    cake.classList.add("cake");
+                    page.appendChild(cake);
+
+                    gsap.to(cake, {
+                        duration: 1.5,
+                        opacity: 1,
+                        y: -100,
+                        ease: "power2.out"
+                    });
+
+                    gsap.to(photo, {
+                        duration: 1.5,
+                        opacity: 1,
+                        scale: 1,
+                        ease: "power2.out"
+                    });
+
+                    gsap.to(text, {
+                        duration: 1.5,
+                        opacity: 1,
+                        scale: 1,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            gsap.to(text, {
+                                scale: 1.1,
+                                duration: 0.5,
+                                repeat: -1,
+                                yoyo: true,
+                                ease: "sine.inOut"
+                            });
+                        }
+                    });
+                }
+
+                function startBalloonAnimation(pageId) {
+                    spawnInterval = setInterval(createBalloon(pageId), 300);
+                    setTimeout(() => {
+                        clearInterval(spawnInterval);
+                        setTimeout(createDecoration(pageId), 2000);
+                    }, 3000);
+                }
+
+                startBalloonAnimation(pageId);
+            }
+
+            const generatePage3 = (pageId) => {
+                const page = document.getElementById(pageId);
+
+                // Membuat elemen teks
+                const textPage3 = document.createElement("h3");
+                textPage3.id = "text-page3";
+                textPage3.classList.add("text-page3");
+                textPage3.textContent = "Ada yang kurang nich"; // Teks default sebelum animasi
+
+                // Membuat elemen Lottie
+                const lottiePlayer = document.createElement("dotlottie-player");
+                lottiePlayer.src = "https://lottie.host/a9dcc372-b648-4f3e-b72c-4b2c294e4a20/qc5RL8mz0i.lottie";
+                lottiePlayer.setAttribute("background", "transparent");
+                lottiePlayer.setAttribute("speed", "1");
+                lottiePlayer.style.width = "300px";
+                lottiePlayer.style.height = "300px";
+                lottiePlayer.setAttribute("loop", "");
+                lottiePlayer.setAttribute("autoplay", "");
+
+
+                // Menambahkan elemen ke dalam halaman
+                page.appendChild(textPage3);
+                page.appendChild(lottiePlayer);
+
+                // Memanggil animasi teks
+                animateText('text-page3', "ada satu lagi ni\nkasi jangan yaa??", 'bounce');
+            };
+
+            const generatePage4 = (pageId) => {
+                const page = document.getElementById(pageId);
+
+                function createRow(images, className) {
+                    const row = document.createElement("div");
+                    row.className = "page4_row";
+                    images.forEach(src => {
+                        const img = document.createElement("img");
+                        img.src = `assets/images/letters/${src}.png`;
+                        img.className = className;
+                        img.alt = "";
+                        row.appendChild(img);
+                    });
+                    return row;
+                }
+
+                function createSpecialRow() {
+                    const row = document.createElement("div");
+                    row.className = "page4_row";
+
+                    const goldLove1 = document.createElement("img");
+                    goldLove1.src = "assets/images/balloons_gold_love.png";
+                    goldLove1.className = "page4_gold_love";
+                    goldLove1.alt = "";
+
+                    const four = document.createElement("img");
+                    four.src = "assets/images/letters/4.png";
+                    four.className = "page4_four";
+                    four.alt = "";
+                    four.style.position = "relative";
+                    four.style.left = "7.5px";
+
+                    const thRow = document.createElement("div");
+                    thRow.className = "page4_row";
+                    thRow.style.position = "relative";
+                    thRow.style.left = "-7.5px";
+
+                    const t = document.createElement("img");
+                    t.src = "assets/images/letters/t_.png";
+                    t.className = "page4_th";
+                    t.alt = "";
+                    t.style.position = "relative";
+                    t.style.left = "5px";
+
+                    const h = document.createElement("img");
+                    h.src = "assets/images/letters/h_.png";
+                    h.className = "page4_th";
+                    h.alt = "";
+                    h.style.position = "relative";
+                    h.style.left = "-5px";
+
+                    thRow.appendChild(t);
+                    thRow.appendChild(h);
+
+                    const goldLove2 = goldLove1.cloneNode();
+
+                    row.appendChild(goldLove1);
+                    row.appendChild(four);
+                    row.appendChild(thRow);
+                    row.appendChild(goldLove2);
+
+                    return row;
+                }
+
+                function createConfetti() {
+                    const confetti = document.createElement("div");
+                    confetti.className = "page4_confetti";
+
+                    const img = document.createElement("img");
+                    img.src = "assets/images/nasa.png";
+                    img.alt = "";
+
+                    confetti.appendChild(img);
+                    return confetti;
+                }
+
+                const container = document.createElement("div");
+                container.className = "page4_container";
+
+                container.appendChild(createRow(["H", "A", "P", "P", "Y"], "page4_happy"));
+                container.appendChild(createRow(["A", "N", "N", "I", "V", "E", "R", "S", "A", "R", "Y"], "page4_anniversay"));
+                container.appendChild(createSpecialRow());
+                container.appendChild(createConfetti());
+
+                page.appendChild(container);
+
+                gsap.fromTo(".page4_row img, .page4_confetti",
+                    { scale: 0.9, opacity: 0 },
+                    { scale: 1, opacity: 1, duration: 1, stagger: 0.1, ease: "sine.inOut" }
+                );
+
+                gsap.to(".page4_row img", {
+                    x: 5,
+                    rotation: 5,
+                    duration: 1,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: "sine.inOut"
+                });
+
+                gsap.to(".page4_confetti", {
+                    scale: 1.1,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                function createBalloon() {
+                    let balloon = document.createElement("img");
+                    balloon.src = "balloon.png";
+                    balloon.className = "page4_balloon";
+                    page.appendChild(balloon);
+
+                    let startPosX = Math.random() * (window.innerWidth * 0.6);
+                    let startPosY = window.innerHeight + Math.random() * 200;
+                    let size = 100 + Math.random() * 100;
+                    let speed = 3 + Math.random() * 7;
+
+                    balloon.style.left = `${startPosX}px`;
+                    balloon.style.top = `${startPosY}px`;
+                    balloon.style.width = `${size}px`;
+
+                    gsap.to(balloon, {
+                        y: -window.innerHeight - 200,
+                        duration: speed,
+                        delay: Math.random() * 3,
+                        ease: "linear",
+                        onComplete: () => {
+                            balloon.remove();
+                            setTimeout(createBalloon, 100);
+                        }
+                    });
+                }
+
+                for (let i = 0; i < 20; i++) {
+                    createBalloon();
+                }
+            }
+
+            if (currentPage == 0) {
+                generatePage1("page1");
+            }
+
+            function navigateToPage(nextPage) {
+                if (isAnimating) return; // Cegah navigasi ganda
+                isAnimating = true;
+
+                if (nextPage === 2) {
+                    gsap.to("#page1", { y: "-100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page2", {
+                        y: "-100%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            generatePage2("page2");
+                            isAnimating = false; // Reset flag
+                        }
+                    });;
+                } else if (nextPage === 3) {
+                    gsap.to(".transition", { scale: 0, duration: 0, display: "block" }); // Reset scale
+                    gsap.to(".transition", {
+                        scale: 50, duration: 1, ease: "power2.out", onComplete: () => {
+                            gsap.to("#page2", { y: "-100%", duration: 0 });
+                            gsap.to("#page3", { y: "-200%", duration: 0 });
+                            gsap.to(".transition", {
+                                scale: 0, duration: 1.5, ease: "power2.inOut", onComplete: () => {
+                                    document.querySelector(".transition").style.display = "none";
+                                }
+                            });
+                            generatePage4("page3");
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                } else if (nextPage === 4) {
+                    gsap.to("#page3", { y: "-100%", duration: 1, ease: "power2.inOut" });
+                    // gsap.to("#page4", {
+                    //     y: "-300%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                    //         addExtraElement(nextPage);
+                    //         removeExtraElement(currentPage - 1);
+                    //         isAnimating = false; // Reset flag
+                    //     }
+                    // });;
+                    gsap.to("#page5", { y: "-300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page6", { y: "-300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page7", { y: "-300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page8", { y: "-300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page9", { y: "-300%", duration: 1, ease: "power2.inOut" });
+                } else if (nextPage === 5) {
+                    gsap.to("#page4", { x: "-100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page5", {
+                        x: "100%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                    gsap.to("#page6", { x: "100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page7", { x: "100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page8", { x: "100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page9", { x: "100%", duration: 1, ease: "power2.inOut" });
+                } else if (nextPage === 6) {
+                    gsap.to("#page5", { x: "200%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page6", {
+                        x: "200%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                    gsap.to("#page7", { x: "200%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page8", { x: "200%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page9", { x: "200%", duration: 1, ease: "power2.inOut" });
+                } else if (nextPage === 7) {
+                    gsap.to("#page6", { x: "300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page7", {
+                        x: "300%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                    gsap.to("#page8", { x: "300%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page9", { x: "300%", duration: 1, ease: "power2.inOut" });
+                } else if (nextPage === 8) {
+                    gsap.to("#page7", { x: "400%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page8", {
+                        x: "400%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                    gsap.to("#page9", { x: "400%", duration: 1, ease: "power2.inOut" });
+                } else if (nextPage === 9) {
+                    gsap.to("#page8", { x: "500%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page9", {
+                        x: "500%", duration: 1, ease: "power2.inOut", onComplete: () => {
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                } else if (nextPage === 10) {
+                    gsap.to(".transition", { scale: 0, duration: 0, display: "block" }); // Reset scale
+                    gsap.to(".transition", {
+                        scale: 50, duration: 1, ease: "power2.out", onComplete: () => {
+                            gsap.to("#page4", { y: "-400%", duration: 0 });
+                            gsap.to("#page5", { y: "-400%", duration: 0 });
+                            gsap.to("#page6", { y: "-400%", duration: 0 });
+                            gsap.to("#page7", { y: "-400%", duration: 0 });
+                            gsap.to("#page8", { y: "-400%", duration: 0 });
+                            gsap.to("#page9", { y: "-400%", duration: 0 });
+                            gsap.to("#page10", { y: "-400%", duration: 0 });
+                            gsap.to(".transition", {
+                                scale: 0, duration: 1, ease: "power2.inOut", onComplete: () => {
+                                    document.querySelector(".transition").style.display = "none";
+                                }
+                            });
+                            addExtraElement(nextPage);
+                            removeExtraElement(currentPage - 1);
+                            isAnimating = false; // Reset flag
+                        }
+                    });
+                } else {
+                    gsap.to(".page", { y: "0%", x: "0%", duration: 1, ease: "power2.inOut" });
+                    currentPage = 1
+                    removeExtraElement(nextPage - 1);
+                    isAnimating = false; // Reset flag
+                    return
+                }
+                currentPage = nextPage;
+            }
+
+            // Fungsi untuk menambahkan elemen baru di halaman yang dituju
+            function addExtraElement(page) {
+                isAnimating = false; // Reset flag
+                const targetPage = document.getElementById(`page${page}`);
+                const newElement = document.createElement("div");
+                newElement.classList.add("extra-content");
+                newElement.innerText = `Ini elemen baru di halaman ${page}`;
+                newElement.style.padding = "10px";
+                newElement.style.background = "lightblue";
+                newElement.style.marginTop = "20px";
+                targetPage.appendChild(newElement);
+            }
+
+            // Fungsi untuk menghapus elemen tambahan dari halaman sebelumnya
+            function removeExtraElement(page) {
+                const targetPage = document.getElementById(`page${page}`);
+                if (targetPage) {
+                    while (targetPage.firstChild) {
+                        targetPage.removeChild(targetPage.firstChild);
+                    }
+                }
+            }
+
+            document.body.addEventListener("click", () => {
+                if (currentPage === 0) {
+                    let leftCurtain = document.querySelector(".left-curtain");
+                    let rightCurtain = document.querySelector(".right-curtain");
+
+                    gsap.to(leftCurtain, { x: "-100%", duration: 1, ease: "power3.inOut" });
+                    gsap.to(rightCurtain, {
+                        x: "100%", duration: 1, ease: "power3.inOut", onComplete: () => {
+                            currentPage++
+                        }
+                    });
+                } else navigateToPage(currentPage + 1);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

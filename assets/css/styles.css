@@ -1,0 +1,315 @@
+@font-face {
+    font-family: 'Chewy';
+    src: url('../fonts/Chewy/Chewy-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gloria Hallelujah';
+    src: url('../fonts/Gloria_Hallelujah/GloriaHallelujah-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pacifico';
+    src: url('../fonts/Pacifico/Pacifico-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan';
+    src: url('../fonts/Baloo_Bhaijaan/static/BalooBhaijaan2-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan';
+    src: url('../fonts/Baloo_Bhaijaan/static/BalooBhaijaan2-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan';
+    src: url('../fonts/Baloo_Bhaijaan/static/BalooBhaijaan2-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan';
+    src: url('../fonts/Baloo_Bhaijaan/static/BalooBhaijaan2-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan';
+    src: url('../fonts/Baloo_Bhaijaan/static/BalooBhaijaan2-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Bhaijaan Variable';
+    src: url('../fonts/Baloo_Bhaijaan/BalooBhaijaan2-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400 800;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111;
+    position: relative;
+}
+
+.transition {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 2;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+}
+
+#page1 {
+    background: linear-gradient(to bottom, #87CEEB, #ffffff);
+    top: 0;
+    z-index: 1;
+}
+
+#page2 {
+    background-color: #f0f4f5;
+    top: 100%;
+    z-index: 1;
+}
+
+#page3 {
+    background-color: #222;
+    top: 200%;
+    z-index: 1;
+}
+
+#page4 {
+    background: linear-gradient(to bottom, #87CEEB, #ffffff);
+    top: 300%;
+    z-index: 1;
+}
+
+#page5 {
+    background-color: #00f7ff;
+    top: 300%;
+    left: -100%;
+    z-index: 1;
+}
+
+#page6 {
+    background-color: #e5ff00;
+    top: 300%;
+    left: -200%;
+    z-index: 1;
+}
+
+#page7 {
+    background-color: #0099ff;
+    top: 300%;
+    left: -300%;
+    z-index: 1;
+}
+
+#page8 {
+    background-color: #e5ff00;
+    top: 300%;
+    left: -400%;
+    z-index: 1;
+}
+
+#page9 {
+    background-color: #0099ff;
+    top: 300%;
+    left: -500%;
+    z-index: 1;
+}
+
+#page10 {
+    background-color: #fff;
+    top: 400%;
+    z-index: 1;
+}
+
+.curtain {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: rebeccapurple;
+    z-index: 2;
+}
+
+.left-curtain {
+    left: 0;
+}
+
+.right-curtain {
+    right: 0;
+}
+
+/* PAGE 1 */
+.boy-animate {
+    position: absolute;
+    bottom: 100px;
+    font-family: 'Chewy', cursive;
+}
+
+.boy-animate h3 {
+    text-align: center;
+    color: #0D4C92;
+    line-height: 1;
+}
+
+/* PAGE 2 */
+.balloon {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    bottom: -100px;
+}
+
+.decoration {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: -100px;
+    opacity: 0;
+}
+
+.text-img {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 300px;
+    opacity: 0;
+}
+
+.cake {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0.8);
+    opacity: 0;
+    width: 300px;
+    height: 300px;
+}
+
+.photo-nabila {
+    position: absolute;
+    top: 57%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 100%;
+    height: 300px;
+    opacity: 0;
+    object-fit: cover;
+    object-position: bottom;
+}
+
+/* PAGE 3 */
+.text-page3 {
+    font-family: 'chewy', cursive;
+    font-size: 2rem;
+    color: #0D4C92;
+    text-align: center;
+}
+
+
+/* PAGE 4 */
+.page4_balloon {
+    position: absolute;
+}
+
+.page4_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.page4_row {
+    display: flex;
+    z-index: 2;
+}
+
+.page4_row img {
+    opacity: 0;
+    position: relative;
+    filter: drop-shadow(5px 5px 8px rgba(247, 231, 148, 0.8));
+}
+
+.page4_row img.page4_happy {
+    width: 50px;
+}
+
+.page4_row img.page4_anniversay {
+    width: 30px;
+    max-height: 30px;
+}
+
+.page4_row img.page4_gold_love {
+    width: 100px;
+    max-height: 100px;
+}
+
+.page4_row img.page4_four {
+    width: 50px;
+    max-height: 50px;
+}
+
+.page4_row img.page4_th {
+    width: 30px;
+    max-height: 30px;
+    margin: 0;
+}
+
+.page4_confetti {
+    opacity: 0;
+    position: relative;
+    top: -40px;
+    z-index: 2;
+}
+
+.page4_confetti img {
+    width: 200px;
+    max-height: 200px;
+    filter: drop-shadow(5px 5px 6px rgba(247, 231, 148, 1));
+}

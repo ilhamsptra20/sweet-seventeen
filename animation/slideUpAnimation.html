@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Scale & Vertical Slide Transition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+            position: relative;
+        }
+
+        .transition {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        #page1 {
+            background-color: #ffcc00;
+            top: 0;
+        }
+
+        #page2 {
+            background-color: #0099ff;
+            top: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="transition"></div>
+    <div class="page" id="page1">Halaman 1 - Tap untuk lanjut</div>
+    <div class="page" id="page2">Halaman 2</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Animasi Scale untuk membuka halaman
+            gsap.to(".transition", {
+                scale: 50,
+                duration: 1.5,
+                ease: "power2.out",
+                onComplete: () => {
+                    document.querySelector(".transition").style.display = "none";
+                }
+            });
+
+            let currentPage = 1; // Variabel untuk melacak halaman saat ini
+
+            // Animasi Slide ke atas saat tap
+            document.body.addEventListener("click", () => {
+                if (currentPage === 1) {
+                    gsap.to("#page1", { y: "-100%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page2", { y: "-100%", duration: 1, ease: "power2.inOut" });
+                    currentPage = 2;
+                } else {
+                    gsap.to("#page2", { y: "0%", duration: 1, ease: "power2.inOut" });
+                    gsap.to("#page1", { y: "0%", duration: 1, ease: "power2.inOut" });
+                    currentPage = 1;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Curtain Reveal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background-color: black;
+            z-index: 1;
+        }
+
+        .curtain {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background-color: #ffcc00;
+            z-index: 2;
+        }
+
+        .left-curtain {
+            left: 0;
+        }
+
+        .right-curtain {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page" id="page1">Halaman 1 - Klik Dimana Saja</div>
+    <div class="page" id="page2" style="display: none;">Halaman 2</div>
+
+    <!-- Tirai -->
+    <div class="curtain left-curtain"></div>
+    <div class="curtain right-curtain"></div>
+
+    <script>
+        document.body.addEventListener("click", () => {
+            let leftCurtain = document.querySelector(".left-curtain");
+            let rightCurtain = document.querySelector(".right-curtain");
+            let page1 = document.getElementById("page1");
+            let page2 = document.getElementById("page2");
+
+            // Animasi membuka tirai
+            gsap.to(leftCurtain, { x: "-100%", duration: 1, ease: "power3.inOut" });
+            gsap.to(rightCurtain, {
+                x: "100%", duration: 1, ease: "power3.inOut", onComplete: () => {
+                    page1.style.display = "none";
+                    page2.style.display = "flex";
+                    gsap.fromTo(page2, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

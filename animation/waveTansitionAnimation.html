@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Wave Reveal Transition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        #page1 {
+            background-color: #222;
+        }
+
+        #page2 {
+            background-color: #ffff;
+            color: black;
+            opacity: 0;
+            display: none;
+        }
+
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .wave {
+            position: absolute;
+            width: 300%;
+            height: 200px;
+            background: white;
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100%;
+            transform: scale(1);
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page" id="page1">Halaman 1 - Klik Dimana Saja</div>
+    <div class="page" id="page2">Halaman 2</div>
+
+    <div class="wave-container">
+        <div class="wave"></div>
+    </div>
+
+    <script>
+        document.body.addEventListener("click", () => {
+            let wave = document.querySelector(".wave");
+            let page1 = document.getElementById("page1");
+            let page2 = document.getElementById("page2");
+
+            gsap.timeline()
+                .set(wave, { opacity: 1 }) // Pastikan wave terlihat di awal
+                .to(wave, {
+                    y: "-50vh",
+                    scaleX: 5,
+                    scaleY: 20,
+                    duration: 1.6,
+                    ease: "power4.inOut",
+                    onComplete: () => {
+                        page1.style.display = "none";
+                        page2.style.display = "flex";
+                        gsap.to(page2, { opacity: 1, duration: 0.8, ease: "power2.out" });
+                    }
+                })
+                .to(wave, {
+                    y: "100vh",
+                    opacity: 0,
+                    duration: 1.3,
+                    ease: "power4.inOut"
+                });
+        });
+    </script>
+
+</body>
+
+</html>

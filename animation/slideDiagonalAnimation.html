@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagonal Slide Transition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #111;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+            transition: transform 1s ease-in-out;
+        }
+
+        .page1 {
+            background-color: #e74c3c;
+            z-index: 2;
+        }
+
+        .page2 {
+            background-color: #3498db;
+            z-index: 1;
+            transform: translate(-100%, -100%);
+            /* Awal halaman kedua di luar layar */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="page page1">Halaman 1</div>
+        <div class="page page2">Halaman 2</div>
+    </div>
+
+    <script>
+        document.body.addEventListener("click", () => {
+            gsap.to(".page1", {
+                duration: 1,
+                x: "100%", // Geser ke kanan
+                y: "100%", // Geser ke bawah
+                ease: "power2.inOut",
+                onComplete: () => {
+                    document.querySelector(".page1").style.display = "none"; // Hilangkan halaman pertama setelah animasi selesai
+                }
+            });
+
+            gsap.to(".page2", {
+                duration: 1,
+                x: "0%", // Geser ke posisi normal
+                y: "0%",
+                ease: "power2.inOut",
+                delay: 0.2 // Sedikit jeda agar efek lebih terlihat
+            });
+        });
+    </script>
+
+</body>
+
+</html>
